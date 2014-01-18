@@ -1,3 +1,10 @@
+## Shameless Selfpromotion
+
+This goes first rather than last ;-)
+
+* My book [Getting Started with NoSQL](http://amzn.to/16dxkni)
+* My [personal blog](http://www.m10v.com)
+
 ## Live Demo at MHacks, Detroit, 2014
 
 This repo contains the code for the live demo done at MHacks, 2014
@@ -27,3 +34,4 @@ The following files would be of interest:
 ## Contact
 
 If you have any questions, mail me at gaurav[dot]vaish[~at~]yahoo[dot]com
+
