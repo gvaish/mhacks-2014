@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>MHacks</title>
+		<script src="http://yui.yahooapis.com/3.14.1/build/yui/yui-min.js"></script>
+		<style>
+			#flickr, #weather { max-width: 400px; float: left; margin-left: 10px; max-height: 600px; overflow: auto; border: 1px solid; border-radius: 4px; padding: 4px; }
+		</style>
+	</head>
+	<body>
+		<script type="text/javascript">
+			var YQL_FMT = "select * from flickr.photos.search(5) where text='{query}' and api_key='eafe95efe443d72b1344b49f1f87ee99'";
+
+			YUI().use("yql", "node", "event", "handlebars", function(Y) {
+				Y.on("domready", function() {
+					Y.one("#search").on("click", function(e) {
+						var loc = Y.one("#location").get("value");
+						var query = Y.Lang.sub(YQL_FMT, { "query": loc });
+						Y.YQL(query, function(response) {
+							var results = response.query.results,
+								images = results,
+								flickr = Y.one("#flickr"),
+								f_src = Y.one("#t_flickr").getHTML(),
+								f_tpl = Y.Handlebars.compile(f_src),
+								f_html = f_tpl(images);
+
+							flickr.set("innerHTML", f_html);
+						});
+					});
+				});
+			});
+		</script>
+		<script id="t_flickr" type="text/x-handlebars-template">
+			{{#photo}}
+				<img src='http://farm{{farm}}.staticflickr.com/{{server}}/{{id}}_{{secret}}.jpg' width='200'>
+			{{/photo}}
+		</script>
+		<input type="text" id="location" /><br/>
+		<button id="search">Search</button>
+
+		<div style="margin-top: 10px">
+			<div id="flickr">
+			</div>
+		</div>
+	</body>
+</html>
+	

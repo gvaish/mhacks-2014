@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>MHacks</title>
+		<script src="http://yui.yahooapis.com/3.14.1/build/yui/yui-min.js"></script>
+		<style>
+			#flickr, #weather { max-width: 400px; float: left; margin-left: 10px; max-height: 600px; overflow: auto; border: 1px solid; border-radius: 4px; padding: 4px; }
+		</style>
+	</head>
+	<body>
+		<script type="text/javascript">
+			var YQL_FMT = "select * from weather.bylocation where location='{query}'";
+
+			YUI().use("yql", "node", "event", "handlebars", function(Y) {
+				Y.on("domready", function() {
+					Y.one("#search").on("click", function(e) {
+						var loc = Y.one("#location").get("value");
+						var query = Y.Lang.sub(YQL_FMT, { "query": loc });
+
+						Y.YQL(query, function(response) {
+							var results = response.query.results.weather.rss.channel,
+								weather = Y.one("#weather"),
+								src = Y.one("#t_weather").getHTML(),
+								tpl = Y.Handlebars.compile(src),
+								html = tpl(results);
+
+							weather.set("innerHTML", html);
+						});
+					});
+				});
+			});
+		</script>
+		<script id="t_weather" type="text/x-handlebars-template">
+			<b>{{#location}}{{{city}}}, {{{region}}}, {{{country}}}{{/location}}</b>
+			<div>
+				Temperatue: {{item.condition.temp}} deg {{units.temperature}}
+			</div>
+			<hr/>
+			<div>{{{item.description}}}</div>
+		</script>
+
+		<input type="text" id="location" /><br/>
+		<button id="search">Search</button>
+
+		<div style="margin-top: 10px">
+			<div id="weather">
+			</div>
+		</div>
+	</body>
+</html>

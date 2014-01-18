@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>MHacks</title>
+		<script src="http://yui.yahooapis.com/3.14.1/build/yui/yui-min.js"></script>
+		<style>
+			#flickr, #weather { max-width: 400px; float: left; margin-left: 10px; max-height: 600px; overflow: auto; border: 1px solid; border-radius: 4px; padding: 4px; }
+		</style>
+	</head>
+	<body>
+		<script type="text/javascript">
+			var YQL_FMT = "select * from flickr.photos.search(5) where text='{query}' and api_key='eafe95efe443d72b1344b49f1f87ee99'";
+			var YQL_FMT_2 = "select * from yql.query.multi where queries=\"select * from flickr.photos.search(5) where text='{query}' and api_key='eafe95efe443d72b1344b49f1f87ee99'; select * from weather.bylocation where location='{query}'\"";
+
+			YUI().use("yql", "node", "event", "handlebars", function(Y) {
+				Y.on("domready", function() {
+					Y.one("#search").on("click", function(e) {
+						var loc = Y.one("#location").get("value");
+						var query = Y.Lang.sub(YQL_FMT_2, { "query": loc });
+						Y.YQL(query, function(response) {
+							//Y.one("#flickr").set("innerHTML", (response.query.results.results.length));
+							var results = response.query.results.results,
+								images = results[0],
+								weather = results[1].weather.rss.channel,
+								n_flickr = Y.one("#flickr"),
+								n_weather = Y.one("#weather"),
+								f_src = Y.one("#t_flickr").getHTML(),
+								w_src = Y.one("#t_weather").getHTML(),
+								f_tpl = Y.Handlebars.compile(f_src),
+								w_tpl = Y.Handlebars.compile(w_src),
+								f_html = f_tpl(images),
+								w_html = w_tpl(weather);
+
+							n_flickr.set("innerHTML", f_html);
+							n_weather.set("innerHTML", w_html);
+						});
+					});
+				});
+			});
+		</script>
+		<script id="t_flickr" type="text/x-handlebars-template">
+			{{#photo}}
+				<img src='http://farm{{farm}}.staticflickr.com/{{server}}/{{id}}_{{secret}}.jpg' width='200'>
+			{{/photo}}
+		</script>
+		<script id="t_weather" type="text/x-handlebars-template">
+			<b>{{#location}}{{{city}}}, {{{region}}}, {{{country}}}{{/location}}</b>
+			<div>
+				Temperatue: {{item.condition.temp}} deg {{units.temperature}}
+			</div>
+			<div>{{{item.description}}}</div>
+		</script>
+		<input type="text" id="location" /><br/>
+		<button id="search">Search</button>
+
+		<div>
+			<div id="weather">
+			</div>
+			<div id="flickr">
+			</div>
+		</div>
+	</body>
+</html>
+	
