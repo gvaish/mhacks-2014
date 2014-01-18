@@ -24,3 +24,6 @@ The following files would be of interest:
 3. `public/flickr.html`: Flickr data using YQL
 4. `public/final.html`: Flickr and Weather data using YQL
 
+## Contact
+
+If you have any questions, mail me at gaurav[dot]vaish[~at~]yahoo[dot]com
