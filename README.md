@@ -15,6 +15,16 @@ The demo is about using YQL to retrive virtually anything from the web.
 
 So, you don't need to learn any provider specific API whatsoever. If you need to integrate with Flickr, good. If you need to get data from Netflix, you don't need to read that documentation.
 
+## Technologies and Frameworks Used
+
+* JavaScript
+* NodeJS
+* YUI
+* HTML
+* CSS
+* Handlebars
+* HTTP
+
 ## Setup
 
 1. Install `nodejs` from http://www.nodejs.org
