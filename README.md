@@ -1,4 +1,4 @@
-## Shameless Selfpromotion
+## Shameless Self Promotion
 
 This goes first rather than last ;-)
 
