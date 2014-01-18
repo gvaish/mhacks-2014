@@ -20,6 +20,7 @@ So, you don't need to learn any provider specific API whatsoever. If you need to
 * JavaScript
 * NodeJS
 * YUI
+* YQL
 * HTML
 * CSS
 * Handlebars
